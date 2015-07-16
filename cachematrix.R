@@ -20,18 +20,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
+# .............................................................................
+# 
+#
+#
+# Matrix inversion is usually a costly computation and there may be some benefit 
+# to caching the inverse of a matrix rather than compute it repeatedly -- the 
+# following functions serve this purpose. 
+#
 #
 # Creates a special "matrix" object that contains an invertiable matrix and
 # a cache of it's inverse. 
 #
-# Usage:
-#   makeCacheMatrix([x = matrix])
-#
-# Params:
-#   x - optional invertiable matrix, otherwise an emtpy matrix will be created
-#
-# Returns:
-#   special makeCacheMatrix object
+# usage: makeCacheMatrix([x = matrix])
+# params: x - optional invertiable matrix, otherwise an emtpy matrix will be created
+# returns: special makeCacheMatrix object
 #
 makeCacheMatrix <- function(x = matrix()) {
     # holds the computed inverse of matrix "x"
@@ -60,14 +63,9 @@ makeCacheMatrix <- function(x = matrix()) {
 # Takes a makeCacheMatrix object, solves for it's inverse
 # if the inverse if not already cached.
 #
-# Usage:
-#   cacheSolve(x)
-#
-# Params:
-#   x - makeCacheMatrix to solve and cache
-#
-# Returns:
-#   an inverse of given makeCacheMatrix
+# usage: cacheSolve(x)
+# params: x - makeCacheMatrix to solve and cache
+# returns: an inverse of given makeCacheMatrix
 #
 cacheSolve <- function(x, ...) {
     # Check if we've solved before, check if special matrix already 
