@@ -73,23 +73,19 @@ makeCacheMatrix <- function(x = matrix()) {
 #   an inverse matrix of x
 #
 cacheSolve <- function(x, ...) {
-    # message("Starting cacheSolve:")
-    # check if we've solved before, check if special matrix already 
-    # has inverse in cache
+    # Check if we've solved before, check if special matrix already 
+    # has inverse i.e, cache hit
     inverse_matrix <- x$getInverse() 
     if(!is.null(inverse_matrix)) {
-        # message("Cache hit, returning cached inverse")
         message("Getting cached inverse!")
         return(inverse_matrix)
     }
     
-    # message("Cache miss, solving for matrix")
-    # if we made it here, no cache hit so get the wrapped matrix
-    # and solve, then cache it
+    # Cache miss, so get the wrapped matrix and solve, then cache it
     matrix <- x$get()
     im <- solve(matrix, ...)
     x$setInverse(im)
     
-    # return the solved matrix
+    # return the solved inverse matrix
     im
 }
