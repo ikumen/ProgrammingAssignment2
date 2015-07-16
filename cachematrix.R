@@ -21,36 +21,34 @@
 # SOFTWARE.
 #
 #
-# Description: 
-#   Creates a special "matrix" object that can cache it's inverse. The
-#   special matrix encapsulates a regular matrix which is used during inversing.
-#   The resulting inverse matrix is "cache" locally in the special matrix.
+# Creates a special "matrix" object that contains an invertiable matrix and
+# a cache of it's inverse. 
 #
 # Usage:
 #   makeCacheMatrix([x = matrix])
 #
 # Params:
-#   x - optional matrix to wrap, otherwise emtpy matrix will be created
+#   x - optional invertiable matrix, otherwise an emtpy matrix will be created
 #
 # Returns:
-#   special object representing a matrix
+#   special makeCacheMatrix object
 #
 makeCacheMatrix <- function(x = matrix()) {
     # holds the computed inverse of matrix "x"
-    inverse_matrix <- NULL
+    inverse_x <- NULL
     
-    # assigns new matrix to x
+    # assigns new invertible matrix to x
     set <- function(y) {
         x <<- y
-        # re-initialize since we're wrapping a new matrix
-        inverse_matrix <<- NULL
+        # re-initialize since we've got a new matrix
+        inverse_x <<- NULL
     }
     # return the underlying matrix we've wrapped
     get <- function() x
     # sets computed inverse of matrix x
-    setInverse <- function(im) inverse_matrix <<- im
+    setInverse <- function(ix) inverse_x <<- ix
     # returns the computed inverse of matrix x
-    getInverse <- function() inverse_matrix
+    getInverse <- function() inverse_x
     
     list(set = set, get = get,
          setInverse = setInverse,
@@ -59,26 +57,25 @@ makeCacheMatrix <- function(x = matrix()) {
 
 
 #
-# Description:
-#   "solve" a special matrix object (it's underlying wrapped matrix) and cache
-#   the results.
+# Takes a makeCacheMatrix object, solves for it's inverse
+# if the inverse if not already cached.
 #
 # Usage:
 #   cacheSolve(x)
 #
 # Params:
-#   x - special matrix to solve and cache
+#   x - makeCacheMatrix to solve and cache
 #
 # Returns:
-#   an inverse matrix of x
+#   an inverse of given makeCacheMatrix
 #
 cacheSolve <- function(x, ...) {
     # Check if we've solved before, check if special matrix already 
     # has inverse i.e, cache hit
-    inverse_matrix <- x$getInverse() 
-    if(!is.null(inverse_matrix)) {
+    inverse_x <- x$getInverse() 
+    if(!is.null(inverse_x)) {
         message("Getting cached inverse!")
-        return(inverse_matrix)
+        return(inverse_x)
     }
     
     # Cache miss, so get the wrapped matrix and solve, then cache it
